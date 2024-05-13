@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="540.0" prefWidth="960.0" style="-fx-background-color: #eaf5e3;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="your.package.name.CarrierController">
+    <VBox layoutX="253.0" spacing="10" style="-fx-padding: 20px; -fx-alignment: center;">
+      <Text fill="#108d21" strokeType="OUTSIDE" strokeWidth="0.0" text=" GreenGrocer" textAlignment="CENTER" wrappingWidth="171.0">
+         <font>
+            <Font name="Curlz MT" size="32.0" />
+         </font>
+      </Text>
+
+        <HBox spacing="10">
+            <Button onAction="#viewAvailableDeliveriesAction" style="-fx-background-color: #9EFA8C; -fx-text-fill: #3d6d38;" text="Available Deliveries" />
+            <Button onAction="#viewOngoingDeliveriesAction" style="-fx-background-color: #9EFA8C; -fx-text-fill: #3d6d38;" text="Ongoing Deliveries" />
+            <Button onAction="#viewCompletedDeliveriesAction" style="-fx-background-color: #9EFA8C; -fx-text-fill: #3d6d38;" text="Completed Deliveries" />
+        </HBox>
+
+        <TableView fx:id="tableView" prefHeight="400.0" prefWidth="349.0" style="-fx-background-color: #cdeccd; -fx-padding: 10px; -fx-border-radius: 10px;">
+            <!-- Table content will be dynamically added here -->
+        </TableView>
+    </VBox>
+
+     <Button layoutX="887.0" layoutY="14.0" onAction="#logoutAction" style="-fx-background-color: #9EFA8C; -fx-text-fill: #3d6d38;" text="Log Out" />
+</AnchorPane>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="540.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="your.package.name.CustomerHomeController">
+    <VBox spacing="10">
+        <Label text="Welcome, [Customer Name]!" style="-fx-font-size: 18px;" />
+
+        <ScrollPane VBox.vgrow="ALWAYS">
+            <VBox spacing="10">
+                <TitledPane text="Vegetables">
+                    <VBox spacing="5">
+                        <!-- Example Vegetable -->
+                        <HBox>
+                            <ImageView fitWidth="100.0" fitHeight="100.0">
+                                <image>
+                                    <Image url="@../Images/vegetable1.jpg"/>
+                                </image>
+                            </ImageView>
+                            <Label text="Carrot - $2.99/kg" />
+                            <Spinner fx:id="carrotSpinner" />
+                            <Button text="Add to Cart" onAction="#addToCartAction" />
+                        </HBox>
+                        <!-- Repeat similar structures for each vegetable -->
+                    </VBox>
+                </TitledPane>
+
+              <TitledPane text="Vegetables">
+    <VBox spacing="5">
+        <!-- Example Vegetables -->
+        <fx:repeat from="1" to="12" index="i">
+            <HBox>
+                <ImageView fitWidth="100.0" fitHeight="100.0">
+                    <image>
+                        <Image url="@{getResource('Images/vegetable' + i + '.jpg')}"/>
+                    </image>
+                </ImageView>
+                <Label text="${vegetables[i]} - ${generateRandomPrice()} /kg" />
+                <Spinner fx:id="vegetable${i}Spinner" />
+                <Button text="Add to Cart" onAction="#addToCartAction" />
+            </HBox>
+        </fx:repeat>
+    </VBox>
+</TitledPane>
+
+<TitledPane text="Fruits">
+    <VBox spacing="5">
+        <!-- Example Fruits -->
+        <fx:repeat from="1" to="12" index="i">
+            <HBox>
+                <ImageView fitWidth="100.0" fitHeight="100.0">
+                    <image>
+                        <Image url="@{getResource('Images/fruit' + i + '.jpg')}"/>
+                    </image>
+                </ImageView>
+                <Label text="${fruits[i]} - ${generateRandomPrice()} /kg" />
+                <Spinner fx:id="fruit${i}Spinner" />
+                <Button text="Add to Cart" onAction="#addToCartAction" />
+            </HBox>
+        </fx:repeat>
+    </VBox>
+</TitledPane>
+            </VBox>
+        </ScrollPane>
+
+        <Button text="View Cart" onAction="#viewCartAction" />
+        <Button text="View Deliveries" onAction="#viewDeliveriesAction" />
+        <Button text="Log Out" onAction="#logoutAction" />
+    </VBox>
+</AnchorPane>
