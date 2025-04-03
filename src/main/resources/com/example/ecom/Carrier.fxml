@@ -3,25 +3,211 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane prefHeight="540.0" prefWidth="960.0" style="-fx-background-color: #eaf5e3;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="your.package.name.CarrierController">
-    <VBox layoutX="253.0" spacing="10" style="-fx-padding: 20px; -fx-alignment: center;">
-      <Text fill="#108d21" strokeType="OUTSIDE" strokeWidth="0.0" text=" GreenGrocer" textAlignment="CENTER" wrappingWidth="171.0">
-         <font>
-            <Font name="Curlz MT" size="32.0" />
-         </font>
-      </Text>
+<BorderPane prefHeight="540.0" prefWidth="960.0" styleClass="dashboard-container" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecom.controller.CarrierController">
+   
+   <!-- Header -->
+   <top>
+      <VBox>
+         <!-- Main Header -->
+         <HBox styleClass="main-header" alignment="CENTER_LEFT" spacing="20">
+            <padding><Insets top="15" right="20" bottom="15" left="20" /></padding>
+            
+            <!-- Logo and Title -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+               <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../../../../../../img/ic_delivery.png" />
+                  </image>
+               </ImageView>
+               <Text styleClass="app-title" text="GreenGrocer Delivery" />
+            </HBox>
+            
+            <Region HBox.hgrow="ALWAYS" />
+            
+            <!-- Carrier Name and Logout -->
+            <HBox alignment="CENTER" spacing="15">
+               <Label fx:id="carrierNameLabel" styleClass="welcome-label" text="Carrier Name" />
+               <Button styleClass="logout-button" onAction="#onLogout" text="Logout">
+                  <graphic>
+                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@../../../../../../img/Logout.png" />
+                        </image>
+                     </ImageView>
+                  </graphic>
+               </Button>
+            </HBox>
+         </HBox>
+         
+         <!-- Tab Navigation -->
+         <TabPane styleClass="dashboard-tabs" VBox.vgrow="ALWAYS">
+            <!-- Active Deliveries Tab -->
+            <Tab closable="false" text="Active Deliveries">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../img/ic_delivery.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox spacing="15" styleClass="tab-content">
+                  <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
+                  
+                  <Text styleClass="section-title" text="Current Deliveries" />
+                  <TableView fx:id="activeDeliveriesTable" styleClass="data-table" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="activeOrderIdColumn" text="Order ID" prefWidth="80" />
+                        <TableColumn fx:id="activeCustomerColumn" text="Customer" prefWidth="120" />
+                        <TableColumn fx:id="activeAddressColumn" text="Delivery Address" prefWidth="250" />
+                        <TableColumn fx:id="activePhoneColumn" text="Phone" prefWidth="120" />
+                        <TableColumn fx:id="activeStatusColumn" text="Status" prefWidth="100" />
+                        <TableColumn fx:id="activeTimeColumn" text="Estimated Time" prefWidth="150" />
+                     </columns>
+                     <placeholder>
+                        <Label text="No active deliveries" />
+                     </placeholder>
+                  </TableView>
 
-        <HBox spacing="10">
-            <Button onAction="#viewAvailableDeliveriesAction" style="-fx-background-color: #9EFA8C; -fx-text-fill: #3d6d38;" text="Available Deliveries" />
-            <Button onAction="#viewOngoingDeliveriesAction" style="-fx-background-color: #9EFA8C; -fx-text-fill: #3d6d38;" text="Ongoing Deliveries" />
-            <Button onAction="#viewCompletedDeliveriesAction" style="-fx-background-color: #9EFA8C; -fx-text-fill: #3d6d38;" text="Completed Deliveries" />
-        </HBox>
+                  <HBox spacing="15" styleClass="action-bar">
+                     <Button styleClass="primary-action" onAction="#onStartDelivery" text="Start Delivery">
+                        <graphic>
+                           <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../../../../../img/ic_stopwatch.png" />
+                              </image>
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                     <Button styleClass="primary-action" onAction="#onCompleteDelivery" text="Complete Delivery">
+                        <graphic>
+                           <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../../../../../img/add.png" />
+                              </image>
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                     <Button styleClass="secondary-action" onAction="#onViewRoute" text="View Route">
+                        <graphic>
+                           <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../../../../../img/HomeIcon.png" />
+                              </image>
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                     <Region HBox.hgrow="ALWAYS" />
+                     <Button styleClass="secondary-action" onAction="#onUpdateStatus" text="Update Status">
+                        <graphic>
+                           <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../../../../../img/ic_stopwatch.png" />
+                              </image>
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                  </HBox>
+               </VBox>
+            </Tab>
 
-        <TableView fx:id="tableView" prefHeight="400.0" prefWidth="349.0" style="-fx-background-color: #cdeccd; -fx-padding: 10px; -fx-border-radius: 10px;">
-            <!-- Table content will be dynamically added here -->
-        </TableView>
-    </VBox>
+            <!-- Delivery History Tab -->
+            <Tab closable="false" text="Delivery History">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../img/ic_cart.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox spacing="15" styleClass="tab-content">
+                  <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
+                  
+                  <Text styleClass="section-title" text="Delivery History" />
+                  
+                  <HBox spacing="10" styleClass="filter-bar">
+                     <DatePicker fx:id="historyStartDate" promptText="Start Date" />
+                     <DatePicker fx:id="historyEndDate" promptText="End Date" />
+                     <Button styleClass="search-button" onAction="#onFilterHistory" text="Filter">
+                        <graphic>
+                           <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../../../../../img/ic_cart.png" />
+                              </image>
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                  </HBox>
 
-     <Button layoutX="887.0" layoutY="14.0" onAction="#logoutAction" style="-fx-background-color: #9EFA8C; -fx-text-fill: #3d6d38;" text="Log Out" />
-</AnchorPane>
+                  <TableView fx:id="deliveryHistoryTable" styleClass="data-table" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="historyOrderIdColumn" text="Order ID" prefWidth="80" />
+                        <TableColumn fx:id="historyCustomerColumn" text="Customer" prefWidth="120" />
+                        <TableColumn fx:id="historyAddressColumn" text="Delivery Address" prefWidth="250" />
+                        <TableColumn fx:id="historyDateColumn" text="Delivery Date" prefWidth="120" />
+                        <TableColumn fx:id="historyTimeColumn" text="Delivery Time" prefWidth="120" />
+                        <TableColumn fx:id="historyStatusColumn" text="Status" prefWidth="120" />
+                     </columns>
+                     <placeholder>
+                        <Label text="No delivery history available" />
+                     </placeholder>
+                  </TableView>
+               </VBox>
+            </Tab>
+
+            <!-- Performance Tab -->
+            <Tab closable="false" text="Performance">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../img/HomeIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox spacing="15" styleClass="tab-content">
+                  <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
+                  
+                  <Text styleClass="section-title" text="Performance Metrics" />
+                  
+                  <HBox spacing="20">
+                     <VBox styleClass="stats-container" spacing="15" minWidth="300">
+                        <GridPane hgap="15" vgap="15" styleClass="stats-grid">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" />
+                              <ColumnConstraints hgrow="SOMETIMES" />
+                           </columnConstraints>
+                           
+                           <Label text="Total Deliveries:" styleClass="stat-label" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                           <Label fx:id="totalDeliveriesLabel" styleClass="stat-value" text="0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                           
+                           <Label text="On-Time Deliveries:" styleClass="stat-label" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                           <Label fx:id="onTimeDeliveriesLabel" styleClass="stat-value" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           
+                           <Label text="Average Delivery Time:" styleClass="stat-label" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                           <Label fx:id="avgDeliveryTimeLabel" styleClass="stat-value" text="0 min" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                           
+                           <Label text="Customer Rating:" styleClass="stat-label" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                           <Label fx:id="customerRatingLabel" styleClass="stat-value" text="0.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        </GridPane>
+                     </VBox>
+                     
+                     <VBox HBox.hgrow="ALWAYS">
+                        <LineChart fx:id="performanceChart" title="Weekly Performance" styleClass="performance-chart" VBox.vgrow="ALWAYS">
+                           <xAxis>
+                              <CategoryAxis label="Day" />
+                           </xAxis>
+                           <yAxis>
+                              <NumberAxis label="Deliveries" />
+                           </yAxis>
+                        </LineChart>
+                     </VBox>
+                  </HBox>
+               </VBox>
+            </Tab>
+         </TabPane>
+      </VBox>
+   </top>
+</BorderPane>

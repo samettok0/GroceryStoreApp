@@ -82,7 +82,7 @@ public class OrderManager
                         int orderId = generatedKeys.getInt(1);
 
                         // Update order_id for each item in the items list
-                        String updateItemsQuery = "UPDATE items SET order_id = ? WHERE AND user_id = ? AND order_id IS NULL";
+                        String updateItemsQuery = "UPDATE items SET order_id = ? WHERE user_id = ? AND order_id IS NULL";
                         try (PreparedStatement updateItemsStatement = conn.prepareStatement(updateItemsQuery)) {
                             updateItemsStatement.setInt(1, orderId);
                             updateItemsStatement.setInt(2, UserManager.getCurrentUser().getId());

@@ -11,10 +11,9 @@ module com.example.ecom {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.sql;
-    requires mysql.connector.java;
+    requires mysql.connector.j;
 
     opens com.example.ecom to javafx.fxml;
+    opens com.example.ecom.controller to javafx.fxml;
     exports com.example.ecom;
-    exports controller;
-    opens controller to javafx.fxml;
 }

@@ -1,35 +1,369 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.*?>
 
-<AnchorPane prefHeight="540.0" prefWidth="960.0" style="-fx-background-color: #eaf5e3;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="your.package.name.OwnerController">
-    <VBox layoutX="227.0" spacing="10" style="-fx-padding: 20px; -fx-alignment: center;">
-
-        <Label style="-fx-font-size: 24px; -fx-text-fill: #48ab2a; -fx-font-weight: bold;" text="Owner Interface" />
-
-        <HBox spacing="10">
-            <Button onAction="#manageProductsAction" style="-fx-background-color: #9EFA8C; -fx-text-fill: #3d6d38;" text="Manage Products" />
-            <Button onAction="#manageCarriersAction" style="-fx-background-color: #9EFA8C; -fx-text-fill: #3d6d38;" text="Manage Carriers" />
-            <Button onAction="#viewOrdersAction" style="-fx-background-color: #9EFA8C; -fx-text-fill: #3d6d38;" text="View Orders" />
-            <Button onAction="#generateReportsAction" style="-fx-background-color: #9EFA8C; -fx-text-fill: #3d6d38;" text="Generate Reports" />
-        </HBox>
-
-        <TableView fx:id="tableView" style="-fx-background-color: #cdeccd; -fx-padding: 10px; -fx-border-radius: 10px;">
-            <!-- Table content will be dynamically added here -->
-        </TableView>
-
-        <Button onAction="#logoutAction" style="-fx-background-color: #9EFA8C; -fx-text-fill: #3d6d38;" text="Log Out" />
-    </VBox>
-   <Text fill="#108d21" layoutX="775.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" GreenGrocer" textAlignment="CENTER" wrappingWidth="171.0">
-      <font>
-         <Font name="Curlz MT" size="32.0" />
-      </font>
-   </Text>
-</AnchorPane>
+<BorderPane prefHeight="540.0" prefWidth="960.0" styleClass="dashboard-container" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecom.controller.OwnerController">
+   
+   <!-- Header -->
+   <top>
+      <VBox>
+         <!-- Main Header -->
+         <HBox styleClass="main-header" alignment="CENTER_LEFT" spacing="20">
+            <padding><Insets top="15" right="20" bottom="15" left="20" /></padding>
+            
+            <!-- Logo and Title -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+               <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../../../../../../img/ic_shop.png" />
+                  </image>
+               </ImageView>
+               <Text styleClass="app-title" text="GreenGrocer Management" />
+            </HBox>
+            
+            <Region HBox.hgrow="ALWAYS" />
+            
+            <!-- Store Owner Info and Logout -->
+            <HBox alignment="CENTER" spacing="15">
+               <Label fx:id="storeNameLabel" styleClass="welcome-label" text="Owner Dashboard" />
+               <Button styleClass="logout-button" onAction="#onLogout" text="Logout">
+                  <graphic>
+                     <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@../../../../../../img/Logout.png" />
+                        </image>
+                     </ImageView>
+                  </graphic>
+               </Button>
+            </HBox>
+         </HBox>
+         
+         <!-- Tab Navigation -->
+         <TabPane styleClass="dashboard-tabs" VBox.vgrow="ALWAYS">
+            <!-- Overview Tab -->
+            <Tab closable="false" text="Dashboard">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../img/HomeIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox spacing="15" styleClass="tab-content">
+                  <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
+                  
+                  <Text styleClass="section-title" text="Store Performance" />
+                  
+                  <!-- KPI Section -->
+                  <GridPane hgap="20" vgap="20">
+                     <columnConstraints>
+                        <ColumnConstraints percentWidth="25" />
+                        <ColumnConstraints percentWidth="25" />
+                        <ColumnConstraints percentWidth="25" />
+                        <ColumnConstraints percentWidth="25" />
+                     </columnConstraints>
+                     
+                     <!-- Revenue KPI -->
+                     <VBox styleClass="kpi-box" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label styleClass="kpi-title" text="Total Revenue" />
+                        <Label fx:id="totalRevenueLabel" styleClass="kpi-value" text="$0.00" />
+                        <Label fx:id="revenueChangeLabel" styleClass="kpi-change" text="+0.0%" />
+                     </VBox>
+                     
+                     <!-- Orders KPI -->
+                     <VBox styleClass="kpi-box" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label styleClass="kpi-title" text="Total Orders" />
+                        <Label fx:id="totalOrdersLabel" styleClass="kpi-value" text="0" />
+                        <Label fx:id="ordersChangeLabel" styleClass="kpi-change" text="+0.0%" />
+                     </VBox>
+                     
+                     <!-- Customers KPI -->
+                     <VBox styleClass="kpi-box" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                        <Label styleClass="kpi-title" text="Total Customers" />
+                        <Label fx:id="totalCustomersLabel" styleClass="kpi-value" text="0" />
+                        <Label fx:id="customersChangeLabel" styleClass="kpi-change" text="+0.0%" />
+                     </VBox>
+                     
+                     <!-- Inventory KPI -->
+                     <VBox styleClass="kpi-box" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                        <Label styleClass="kpi-title" text="Inventory Value" />
+                        <Label fx:id="inventoryValueLabel" styleClass="kpi-value" text="$0.00" />
+                        <Label fx:id="inventoryChangeLabel" styleClass="kpi-change" text="+0.0%" />
+                     </VBox>
+                  </GridPane>
+                  
+                  <!-- Chart Section -->
+                  <HBox spacing="20" VBox.vgrow="ALWAYS">
+                     <!-- Sales Chart -->
+                     <VBox HBox.hgrow="ALWAYS" styleClass="chart-container">
+                        <Label styleClass="chart-header" text="Sales Trend" />
+                        <LineChart fx:id="salesChart" styleClass="business-chart" VBox.vgrow="ALWAYS">
+                           <xAxis>
+                              <CategoryAxis label="Date" />
+                           </xAxis>
+                           <yAxis>
+                              <NumberAxis label="Revenue ($)" />
+                           </yAxis>
+                        </LineChart>
+                     </VBox>
+                     
+                     <!-- Category Breakdown -->
+                     <VBox HBox.hgrow="ALWAYS" styleClass="chart-container">
+                        <Label styleClass="chart-header" text="Sales by Category" />
+                        <PieChart fx:id="categoryChart" styleClass="business-chart" VBox.vgrow="ALWAYS" />
+                     </VBox>
+                  </HBox>
+                  
+                  <!-- Recent Orders -->
+                  <Text styleClass="section-title" text="Recent Orders" />
+                  <TableView fx:id="recentOrdersTable" styleClass="data-table" maxHeight="200">
+                     <columns>
+                        <TableColumn fx:id="orderIdColumn" text="Order ID" prefWidth="80" />
+                        <TableColumn fx:id="orderCustomerColumn" text="Customer" prefWidth="150" />
+                        <TableColumn fx:id="orderDateColumn" text="Date" prefWidth="100" />
+                        <TableColumn fx:id="orderTotalColumn" text="Total" prefWidth="100" />
+                        <TableColumn fx:id="orderStatusColumn" text="Status" prefWidth="120" />
+                        <TableColumn fx:id="orderActionColumn" text="Actions" prefWidth="150" />
+                     </columns>
+                  </TableView>
+               </VBox>
+            </Tab>
+            
+            <!-- Inventory Tab -->
+            <Tab closable="false" text="Inventory">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../img/ic_list.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox spacing="15" styleClass="tab-content">
+                  <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
+                  
+                  <HBox spacing="10" styleClass="action-bar">
+                     <TextField fx:id="inventorySearchField" promptText="Search products..." HBox.hgrow="ALWAYS" />
+                     <ComboBox fx:id="categoryFilterComboBox" promptText="Category" />
+                     <Button styleClass="primary-action" onAction="#onAddProduct" text="Add Product">
+                        <graphic>
+                           <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../../../../../img/add.png" />
+                              </image>
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                  </HBox>
+                  
+                  <TableView fx:id="inventoryTable" styleClass="data-table" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="productIdColumn" text="ID" prefWidth="60" />
+                        <TableColumn fx:id="productImageColumn" text="Image" prefWidth="80" />
+                        <TableColumn fx:id="productNameColumn" text="Name" prefWidth="150" />
+                        <TableColumn fx:id="productCategoryColumn" text="Category" prefWidth="120" />
+                        <TableColumn fx:id="productPriceColumn" text="Price" prefWidth="80" />
+                        <TableColumn fx:id="productStockColumn" text="Stock" prefWidth="80" />
+                        <TableColumn fx:id="productStatusColumn" text="Status" prefWidth="80" />
+                        <TableColumn fx:id="productActionsColumn" text="Actions" prefWidth="150" />
+                     </columns>
+                  </TableView>
+                  
+                  <HBox spacing="10" styleClass="inventory-summary">
+                     <Label text="Total Products:" styleClass="summary-label" />
+                     <Label fx:id="totalProductsLabel" text="0" styleClass="summary-value" />
+                     <Region HBox.hgrow="ALWAYS" />
+                     <Label text="Low Stock Items:" styleClass="summary-label" />
+                     <Label fx:id="lowStockLabel" text="0" styleClass="summary-value-warning" />
+                     <Region HBox.hgrow="ALWAYS" />
+                     <Label text="Out of Stock:" styleClass="summary-label" />
+                     <Label fx:id="outOfStockLabel" text="0" styleClass="summary-value-alert" />
+                  </HBox>
+               </VBox>
+            </Tab>
+            
+            <!-- Orders Tab -->
+            <Tab closable="false" text="Orders">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../img/ic_cart.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox spacing="15" styleClass="tab-content">
+                  <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
+                  
+                  <HBox spacing="10" styleClass="filter-bar">
+                     <DatePicker fx:id="orderStartDate" promptText="Start Date" />
+                     <DatePicker fx:id="orderEndDate" promptText="End Date" />
+                     <ComboBox fx:id="orderStatusFilter" promptText="Order Status" />
+                     <Button styleClass="search-button" onAction="#onFilterOrders" text="Filter" />
+                     <Region HBox.hgrow="ALWAYS" />
+                     <Button styleClass="secondary-action" onAction="#onExportOrders" text="Export">
+                        <graphic>
+                           <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../../../../../img/ic_download.png" />
+                              </image>
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                  </HBox>
+                  
+                  <TableView fx:id="ordersTable" styleClass="data-table" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="allOrderIdColumn" text="Order ID" prefWidth="80" />
+                        <TableColumn fx:id="allOrderCustomerColumn" text="Customer" prefWidth="150" />
+                        <TableColumn fx:id="allOrderDateColumn" text="Date" prefWidth="120" />
+                        <TableColumn fx:id="allOrderItemsColumn" text="Items" prefWidth="80" />
+                        <TableColumn fx:id="allOrderTotalColumn" text="Total" prefWidth="100" />
+                        <TableColumn fx:id="allOrderStatusColumn" text="Status" prefWidth="120" />
+                        <TableColumn fx:id="allOrderDeliveryColumn" text="Delivery" prefWidth="120" />
+                        <TableColumn fx:id="allOrderActionsColumn" text="Actions" prefWidth="150" />
+                     </columns>
+                  </TableView>
+               </VBox>
+            </Tab>
+            
+            <!-- Customers Tab -->
+            <Tab closable="false" text="Customers">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../img/ic_person.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox spacing="15" styleClass="tab-content">
+                  <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
+                  
+                  <HBox spacing="10" styleClass="filter-bar">
+                     <TextField fx:id="customerSearchField" promptText="Search customers..." HBox.hgrow="ALWAYS" />
+                     <ComboBox fx:id="customerSortComboBox" promptText="Sort By" />
+                     <Button styleClass="search-button" onAction="#onSearchCustomers" text="Search" />
+                  </HBox>
+                  
+                  <TableView fx:id="customersTable" styleClass="data-table" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="customerIdColumn" text="ID" prefWidth="60" />
+                        <TableColumn fx:id="customerNameColumn" text="Name" prefWidth="150" />
+                        <TableColumn fx:id="customerEmailColumn" text="Email" prefWidth="200" />
+                        <TableColumn fx:id="customerPhoneColumn" text="Phone" prefWidth="120" />
+                        <TableColumn fx:id="customerOrdersColumn" text="Orders" prefWidth="80" />
+                        <TableColumn fx:id="customerSpentColumn" text="Total Spent" prefWidth="120" />
+                        <TableColumn fx:id="customerLastOrderColumn" text="Last Order" prefWidth="120" />
+                        <TableColumn fx:id="customerActionsColumn" text="Actions" prefWidth="80" />
+                     </columns>
+                  </TableView>
+               </VBox>
+            </Tab>
+            
+            <!-- Settings Tab -->
+            <Tab closable="false" text="Settings">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../img/ic_settings.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox spacing="15" styleClass="tab-content">
+                  <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
+                  
+                  <Text styleClass="section-title" text="Store Settings" />
+                  
+                  <GridPane hgap="15" vgap="10">
+                     <columnConstraints>
+                        <ColumnConstraints minWidth="150" />
+                        <ColumnConstraints hgrow="ALWAYS" />
+                     </columnConstraints>
+                     
+                     <Label text="Store Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                     <TextField fx:id="storeNameField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                     
+                     <Label text="Store Address:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                     <TextField fx:id="storeAddressField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     
+                     <Label text="Contact Email:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                     <TextField fx:id="storeEmailField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     
+                     <Label text="Contact Phone:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                     <TextField fx:id="storePhoneField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                     
+                     <Label text="Tax Rate (%):" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                     <TextField fx:id="taxRateField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                     
+                     <Label text="Store Logo:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                     <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                        <TextField fx:id="logoPathField" HBox.hgrow="ALWAYS" />
+                        <Button onAction="#onBrowseLogo" text="Browse" />
+                     </HBox>
+                  </GridPane>
+                  
+                  <HBox spacing="10" alignment="CENTER_RIGHT">
+                     <Button styleClass="primary-action" onAction="#onSaveSettings" text="Save Settings" />
+                  </HBox>
+                  
+                  <Separator />
+                  
+                  <Text styleClass="section-title" text="User Account" />
+                  
+                  <GridPane hgap="15" vgap="10">
+                     <columnConstraints>
+                        <ColumnConstraints minWidth="150" />
+                        <ColumnConstraints hgrow="ALWAYS" />
+                     </columnConstraints>
+                     
+                     <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                     <TextField fx:id="userEmailField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                     
+                     <Label text="Current Password:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                     <PasswordField fx:id="currentPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     
+                     <Label text="New Password:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                     <PasswordField fx:id="newPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     
+                     <Label text="Confirm Password:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                     <PasswordField fx:id="confirmPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  </GridPane>
+                  
+                  <HBox spacing="10" alignment="CENTER_RIGHT">
+                     <Button styleClass="primary-action" onAction="#onUpdatePassword" text="Update Password" />
+                  </HBox>
+                  
+                  <Separator />
+                  
+                  <Text styleClass="section-title" text="Database Backup" />
+                  
+                  <HBox spacing="15" alignment="CENTER_LEFT">
+                     <Button styleClass="secondary-action" onAction="#onBackupDatabase" text="Create Backup">
+                        <graphic>
+                           <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../../../../../img/ic_download.png" />
+                              </image>
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                     <Button styleClass="secondary-action" onAction="#onRestoreDatabase" text="Restore Database">
+                        <graphic>
+                           <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../../../../../img/ic_upload.png" />
+                              </image>
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                     <Label fx:id="lastBackupLabel" text="Last backup: Never" />
+                  </HBox>
+               </VBox>
+            </Tab>
+         </TabPane>
+      </VBox>
+   </top>
+</BorderPane>

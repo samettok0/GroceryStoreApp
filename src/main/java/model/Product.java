@@ -79,4 +79,7 @@ public class Product {
         this.imageLocation = imageLocation;
     }
 
+    public String getPriceString() {
+        return String.format("$%.2f", price);
+    }
 }

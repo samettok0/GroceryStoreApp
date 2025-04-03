@@ -39,7 +39,7 @@ public class ProductManager {
                 Product product = new Product(
                         resultSet.getInt("id"),
                         resultSet.getString("name"),
-                        resultSet.getFloat("availableStock"),
+                        resultSet.getFloat("stock"),
                         resultSet.getFloat("threshold"),
                         resultSet.getFloat("price"),
                         resultSet.getString("image_location"),
@@ -82,6 +82,23 @@ public class ProductManager {
              PreparedStatement preparedStatement = conn.prepareStatement(deleteQuery))
         {
             preparedStatement.setInt(1, product.getId());
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    public static void createProduct(String name, float stock, float threshold, float price, String imageLocation, Product.Type type) throws SQLException, ClassNotFoundException {
+        String insertQuery = "INSERT INTO products (name, type, image_location, stock, threshold, price) VALUES (?, ?, ?, ?, ?, ?)";
+        
+        try (Connection conn = DatabaseAdapter.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(insertQuery)) {
+
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, type.name());
+            preparedStatement.setString(3, imageLocation);
+            preparedStatement.setFloat(4, stock);
+            preparedStatement.setFloat(5, threshold);
+            preparedStatement.setFloat(6, price);
+
             preparedStatement.executeUpdate();
         }
     }
