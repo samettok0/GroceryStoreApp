@@ -50,6 +50,7 @@ bin/
 
 # IDE-specific files (VS Code)
 .vscode/
+.idea/
 .code-workspace
 
 # NetBeans specific
